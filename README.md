@@ -12,7 +12,7 @@ If you want to run the code here, make sure you read the README files.
 ## Microblog 
 
 **Based on**
-* [The Flask Mega-Tutorial](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world) by [Miguel Grinberg](http://miguelgrinberg.com])
+* [The Flask Mega-Tutorial](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world) by [Miguel Grinberg](http://miguelgrinberg.com)
 
 **Features**
 * Not much... yet.
