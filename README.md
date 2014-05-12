@@ -9,10 +9,13 @@ If you see something that could be done better please let me know. Thanks :)
 
 If you want to run the code here, make sure you read the README files.
 
-## Microblog (based on [The Flask Mega-Tutorial](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world) by [Miguel Grinberg](http://miguelgrinberg.com]))
+## Microblog 
+
+**Based on**
+* [The Flask Mega-Tutorial](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world) by [Miguel Grinberg](http://miguelgrinberg.com])
 
 **Features**
-* Not much
+* Not much... yet.
 
 **Tech Used**
 * [Python v2.7.6](https://www.python.org/)
