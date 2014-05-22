@@ -4,6 +4,13 @@ from hashlib import md5
 ROLE_USER = 0
 ROLE_ADMIN = 1
 
+## Associations
+followers = db.Table('followers',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
+)
+
+## Models
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     nickname = db.Column(db.String(64), unique = True)
@@ -12,10 +19,19 @@ class User(db.Model):
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime)
 
+    # one to many
     posts = db.relationship('Post', backref = 'author', lazy = 'dynamic')
 
-    def avatar(self, size):
-    	return 'http://www.gravatar.com/avatar/' + md5(self.email).hexdigest() + '?d=mm&s=' + str(size)
+    # many to many
+    followed = db.relationship('User', 
+        secondary = followers, 
+        primaryjoin = (followers.c.follower_id == id), 
+        secondaryjoin = (followers.c.followed_id == id), 
+        backref = db.backref('followers', lazy = 'dynamic'), 
+        lazy = 'dynamic')
+
+    def __repr__(self):
+        return '<User %r>' % (self.nickname)
 
     def is_authenticated(self):
         return True
@@ -29,6 +45,11 @@ class User(db.Model):
     def get_id(self):
         return unicode(self.id)
 
+    ## COMMON METHODS
+
+    def avatar(self, size):
+        return 'http://www.gravatar.com/avatar/' + md5(self.email).hexdigest() + '?d=mm&s=' + str(size)
+
     @staticmethod
     def make_unique_nickname(nickname):
         if User.query.filter_by(nickname = nickname).first() == None:
@@ -41,8 +62,30 @@ class User(db.Model):
             version += 1
         return new_nickname
 
-    def __repr__(self):
-        return '<User %r>' % (self.nickname)
+    ## FOLLOW FUNCTIONS
+
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+            return self
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user)
+            return self
+
+    def is_following(self, user):
+        return self.followed.filter(followers.c.followed_id == user.id).count() > 0
+
+    def followed_posts(self):
+        # SELECT * 
+        # FROM posts p 
+        # INNER JOIN followers f ON f.followed = p.user_id
+        # WHERE f.follower_id = $user->id
+        # ORDER BY timestamp DESC
+        return Post.query.join(followers, (followers.c.followed_id == Post.user_id)).filter(followers.c.follower_id == self.id).order_by(Post.timestamp.desc())
+
+        # TODO: Implement User Blocking
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
