@@ -2,9 +2,9 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid
 from models import User, ROLE_USER, ROLE_ADMIN, Post
-from config import POSTS_PER_PAGE
+from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS
 
-from forms import LoginForm, EditForm, PostForm
+from forms import LoginForm, EditForm, PostForm, SearchForm
 from datetime import datetime
 
 @lm.user_loader
@@ -15,7 +15,10 @@ def load_user(id):
 def before_request():
     g.user = current_user
     if g.user.is_authenticated():
+        # globals
         g.user.last_seen = datetime.utcnow()
+        g.search_form = SearchForm()
+
         db.session.add(g.user)
         db.session.commit()
 
@@ -105,7 +108,7 @@ def logout():
 @login_required
 def user(nickname, page = 1):
     user = User.query.filter_by(nickname = nickname).first()
-    
+
     if user == None:
         flash('User ' + nickname + ' not found.')
         return redirect(url_for('index'))
@@ -170,3 +173,21 @@ def unfollow(nickname):
     db.session.commit()
     flash('You have stopped following ' + nickname + '.')
     return redirect(url_for('user', nickname = nickname))
+
+## SEARCH ##############################
+
+@app.route('/search', methods = ['POST'])
+@login_required
+def search():
+    if not g.search_form.validate_on_submit():
+        return redirect(url_for('index'))
+    return redirect(url_for('search_results', query = g.search_form.search.data))
+
+@app.route('/search_results/<query>')
+@login_required
+def search_results(query):
+    results = Post.query.whoosh_search(query, MAX_SEARCH_RESULTS).all()
+    return render_template('search_results.html',
+        query = query,
+        results = results)
+
