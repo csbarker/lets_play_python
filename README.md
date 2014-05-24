@@ -26,9 +26,12 @@ If you want to run the code here, make sure you read the README files.
 * Full text search
 * Unit Tests
 
-**Tech Used**
-* [Python v2.7.6](https://www.python.org/)
-* [Flask v0.9](http://flask.pocoo.org/)
-* [SQLAlchemy v0.16 (Database)](http://www.sqlalchemy.org/)
+**3rd Party**
 * [Open IDs](http://en.wikipedia.org/wiki/OpenID)
 * [Gravatars (Avatars)](https://en.gravatar.com/)
+* [Bootstrap](http://getbootstrap.com/)
+
+**Tech Stack**
+* [Python v2.7.6](https://www.python.org/)
+* [Flask v0.9 (Framework)](http://flask.pocoo.org/)
+* [SQLAlchemy v0.16 (Database)](http://www.sqlalchemy.org/)
