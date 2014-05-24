@@ -18,6 +18,7 @@ If you want to run the code here, make sure you read the README files.
 * Users can signup, login, logout
 * Users can create and delete posts
 * Users can follow other users
+* Users can search posts
 * Users can modify their profiles
 
 **Technical Features**
