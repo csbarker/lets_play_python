@@ -17,9 +17,12 @@ lm.init_app(app)
 lm.login_view = 'login'
 oid = OpenID(app, os.path.join(basedir, 'tmp'))
 
-from app import views, models
+# globals
+from momentjs import momentjs
+app.jinja_env.globals['momentjs'] = momentjs
 
 # logging
+from app import views, models
 if not app.debug:
     import logging
     from logging.handlers import RotatingFileHandler
