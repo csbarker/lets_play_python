@@ -8,6 +8,7 @@ SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 ## Settings
 CSRF_ENABLED = True
 SECRET_KEY = 'you-will-never-guess'
+POSTS_PER_PAGE = 3
 
 ## Common
 OPENID_PROVIDERS = [
