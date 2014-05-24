@@ -14,10 +14,17 @@ If you want to run the code here, make sure you read the README files.
 **Based on**
 * [The Flask Mega-Tutorial](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world) by [Miguel Grinberg](http://miguelgrinberg.com)
 
-**Features**
-* User Logins + Authentication (restricted pages)
-* Profile pages - users can edit their own profile data
-* Unit Tests - mostly for user functionality 
+**App Features**
+* Users can signup, login, logout
+* Users can create and delete posts
+* Users can follow other users
+* Users can modify their profiles
+
+**Technical Features**
+* User System
+* CRUD operations
+* Full text search
+* Unit Tests
 
 **Tech Used**
 * [Python v2.7.6](https://www.python.org/)
